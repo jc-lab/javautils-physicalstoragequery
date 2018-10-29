@@ -25,6 +25,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class LibraryLoader {
+    private static WrappedBoolean m_inited = new WrappedBoolean();
+
+    private static class WrappedBoolean {
+        public boolean value = false;
+    }
+
     public static boolean load() throws PlatformNotSupportedException {
         String platform_os = PlatformDetection.getOs();
         String platform_arch = PlatformDetection.getArch();
@@ -32,33 +38,40 @@ public class LibraryLoader {
         InputStream ris;
         byte[] buffer;
 
-        if(platform_os == null || platform_arch == null)
-        {
-            // Not support OS
-            throw new PlatformNotSupportedException();
-        }
+        synchronized (m_inited) {
 
-        ris = LibraryLoader.class.getResourceAsStream("/lib/" + platform_os + "/" + platform_arch + "/libphystorqueryjni." + platform_libext);
-        if(ris == null) {
-            throw new PlatformNotSupportedException();
-        }
+            if(m_inited.value)
+                return true;
 
-        try {
-            int readlen;
-            File tempFile = File.createTempFile("lpsqj", "." + platform_libext);
-            FileOutputStream fos = new FileOutputStream(tempFile);
-            buffer = new byte[1024];
-            while((readlen = ris.read(buffer)) != -1) {
-                fos.write(buffer, 0, readlen);
+            if (platform_os == null || platform_arch == null) {
+                // Not support OS
+                throw new PlatformNotSupportedException();
             }
-            fos.close();
-            ris.close();
-            tempFile.deleteOnExit();
-            System.load(tempFile.getAbsolutePath());
 
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
+            ris = LibraryLoader.class.getResourceAsStream("/lib/" + platform_os + "/" + platform_arch + "/libphystorqueryjni." + platform_libext);
+            if (ris == null) {
+                throw new PlatformNotSupportedException();
+            }
+
+            try {
+                int readlen;
+                File tempFile = File.createTempFile("lpsqj", "." + platform_libext);
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                buffer = new byte[1024];
+                while ((readlen = ris.read(buffer)) != -1) {
+                    fos.write(buffer, 0, readlen);
+                }
+                fos.close();
+                ris.close();
+                tempFile.deleteOnExit();
+                System.load(tempFile.getAbsolutePath());
+
+                m_inited.value = true;
+
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return false;

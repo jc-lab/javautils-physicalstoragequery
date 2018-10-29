@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package kr.jclab.javautils.physicalstoragequery;
+package kr.jclab.javautils.physicalstoragequery.internal;
 
 public class Libphystorqueryjni {
     /**
