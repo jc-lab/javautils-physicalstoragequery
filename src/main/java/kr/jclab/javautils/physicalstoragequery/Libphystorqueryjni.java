@@ -24,8 +24,7 @@ public class Libphystorqueryjni {
     public native void freeObject(long handle);
 
     /**
-     * @return handle
-     * @warning Must be free by freeObject.
+     * @return handle. Must be free by freeObject.
      * */
     public native long getVolumeList();
 
@@ -51,8 +50,7 @@ public class Libphystorqueryjni {
 
     /**
      * @param deviceName (e.g. sdb or PhysicalDrive1)
-     * @return deviceHandle
-     * @warning Must be free by freeObject.
+     * @return deviceHandle. Must be free by freeObject.
      */
     public native long openPhyDevice(String deviceName);
 

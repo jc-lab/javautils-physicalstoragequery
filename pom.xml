@@ -7,7 +7,7 @@
 
     <groupId>kr.jclab.javautils</groupId>
     <artifactId>physicalstoragequery</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <name>physicalstoragequery</name>
     <description></description>
@@ -29,13 +29,13 @@
     </developers>
 
     <scm>
-        <url>https://github.com/jc-lab/javautils-signedsecurefile</url>
+        <url>https://github.com/jc-lab/javautils-physicalstoragequery</url>
     </scm>
 
     <distributionManagement>
         <repository>
             <id>bintray-jc-lab-java-utils</id>
-            <url>https://api.bintray.com/maven/jc-lab/java-utils/signedsecurefile/;publish=1</url>
+            <url>https://api.bintray.com/maven/jc-lab/java-utils/physicalstoragequery/;publish=1</url>
         </repository>
     </distributionManagement>
 
